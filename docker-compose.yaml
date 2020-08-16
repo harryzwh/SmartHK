@@ -23,21 +23,6 @@ services:
     environment:
       - EMQX_NAME=emqx
       - EMQX_LOADED_PLUGINS=emqx_recon,emqx_retainer,emqx_management,emqx_dashboard
-      #- EMQX_LOADED_PLUGINS=emqx_recon,emqx_retainer,emqx_management,emqx_dashboard,emqx_web_hook
-      #- EMQX_WEB__HOOK__API__URL=http://nodered:1880/${EMQ_WEB_HOOK_PATH}
-      #- 'EMQX_WEB__HOOK__RULE__CLIENT__CONNECT__1='
-      #- 'EMQX_WEB__HOOK__RULE__CLIENT__CONNACK__1='
-      #- 'EMQX_WEB__HOOK__RULE__CLIENT__CONNECTED__1='
-      #- 'EMQX_WEB__HOOK__RULE__CLIENT__DISCONNECTED__1='
-      #- 'EMQX_WEB__HOOK__RULE__CLIENT__SUBSCRIBE__1='
-      #- 'EMQX_WEB__HOOK__RULE__CLIENT__UNSUBSCRIBE__1='
-      #- 'EMQX_WEB__HOOK__RULE__SESSION__CREATED__1='
-      #- 'EMQX_WEB__HOOK__RULE__SESSION__TERMINATED__1='
-      #- 'EMQX_WEB__HOOK__RULE__SESSION__SUBSCRIBED__1='
-      #- 'EMQX_WEB__HOOK__RULE__SESSION__UNSUBSCRIBED__1='
-      #- 'EMQX_WEB__HOOK__RULE__MESSAGE__PUBLISH__1={"action": "on_message_publish"}'
-      #- 'EMQX_WEB__HOOK__RULE__MESSAGE__DELIVERED__1='
-      #- 'EMQX_WEB__HOOK__RULE__MESSAGE__ACKED__1='
     networks:
       - default
     restart: always
