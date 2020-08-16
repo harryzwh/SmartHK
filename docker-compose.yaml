@@ -1,0 +1,78 @@
+version: "3"
+
+volumes:
+  vol-emqx-data:
+  vol-emqx-etc:
+  vol-emqx-log:
+  vol-influxdb-lib:
+  
+networks:
+  default:
+  
+services:
+  emqx:
+    image: emqx/emqx:v4.1.3
+    volumes:
+      - vol-emqx-data:/opt/emqx/data
+      - vol-emqx-etc:/opt/emqx/etc
+      - vol-emqx-log:/opt/emqx/log
+    ports:
+      - 1883:1883
+      - 18083:18083
+      - 8081:8081
+    environment:
+      - EMQX_NAME=emqx
+      - EMQX_LOADED_PLUGINS=emqx_recon,emqx_retainer,emqx_management,emqx_dashboard
+      #- EMQX_LOADED_PLUGINS=emqx_recon,emqx_retainer,emqx_management,emqx_dashboard,emqx_web_hook
+      #- EMQX_WEB__HOOK__API__URL=http://nodered:1880/${EMQ_WEB_HOOK_PATH}
+      #- 'EMQX_WEB__HOOK__RULE__CLIENT__CONNECT__1='
+      #- 'EMQX_WEB__HOOK__RULE__CLIENT__CONNACK__1='
+      #- 'EMQX_WEB__HOOK__RULE__CLIENT__CONNECTED__1='
+      #- 'EMQX_WEB__HOOK__RULE__CLIENT__DISCONNECTED__1='
+      #- 'EMQX_WEB__HOOK__RULE__CLIENT__SUBSCRIBE__1='
+      #- 'EMQX_WEB__HOOK__RULE__CLIENT__UNSUBSCRIBE__1='
+      #- 'EMQX_WEB__HOOK__RULE__SESSION__CREATED__1='
+      #- 'EMQX_WEB__HOOK__RULE__SESSION__TERMINATED__1='
+      #- 'EMQX_WEB__HOOK__RULE__SESSION__SUBSCRIBED__1='
+      #- 'EMQX_WEB__HOOK__RULE__SESSION__UNSUBSCRIBED__1='
+      #- 'EMQX_WEB__HOOK__RULE__MESSAGE__PUBLISH__1={"action": "on_message_publish"}'
+      #- 'EMQX_WEB__HOOK__RULE__MESSAGE__DELIVERED__1='
+      #- 'EMQX_WEB__HOOK__RULE__MESSAGE__ACKED__1='
+    networks:
+      - default
+    restart: always
+
+  nodered:
+    image: pi_node-red:latest
+    #build:
+    #  context: ./
+    #  dockerfile: Dockerfile
+    environment:
+      - TZ=Asia/Hong_Kong
+    ports:
+      - 1880:1880
+    volumes:
+      - /home/$USER/nodered:/data
+    networks:
+      - default
+    restart: always
+    
+  influxdb:
+    image: influxdb:1.8.1
+    ports:
+      - 8086:8086
+    environment:
+      - INFLUXDB_DB=${DB_NAME}
+    volumes:
+      - vol-influxdb-lib:/var/lib/influxdb
+    networks:
+      - default
+    restart: always
+    
+  grafana:
+    image: grafana/grafana:7.1.3
+    ports:
+      - 3000:3000
+    networks:
+      - default
+    restart: always
