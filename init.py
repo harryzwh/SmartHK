@@ -40,7 +40,7 @@ JSON_Data = {"rawsql": "SELECT\n  "
                        "payload.timestamp as ts\n"
                        "FROM\n  "
                        "\"+/+\""}
-params = {"payload_tmpl": "testtest,node=${node},sensor=${sensor} value=${value},unit=\"${unit}\" ${ts}",
+params = {"payload_tmpl": "air,node=${node},sensor=${sensor} value=${value},unit=\"${unit}\" ${ts}",
           "$resource": resource['data']['id']}
 JSON_Data['actions'] = [{"params": params, "name": "data_to_webserver"}]
 r = requests.post(url + api, auth=HTTPBasicAuth(usr, pwd), json=JSON_Data)

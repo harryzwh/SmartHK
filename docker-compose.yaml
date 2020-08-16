@@ -4,6 +4,7 @@ volumes:
   vol-emqx-data:
   vol-emqx-etc:
   vol-emqx-log:
+  vol-emqx-lib:
   vol-influxdb-lib:
   
 networks:
@@ -16,13 +17,15 @@ services:
       - vol-emqx-data:/opt/emqx/data
       - vol-emqx-etc:/opt/emqx/etc
       - vol-emqx-log:/opt/emqx/log
+      - vol-emqx-lib:/opt/emqx/lib
     ports:
       - 1883:1883
       - 18083:18083
       - 8081:8081
     environment:
       - EMQX_NAME=emqx
-      - EMQX_LOADED_PLUGINS=emqx_recon,emqx_retainer,emqx_management,emqx_dashboard
+      - EMQX_HOST=127.0.0.1
+      - EMQX_LOADED_PLUGINS=emqx_recon,emqx_retainer,emqx_management,emqx_dashboard,emqx_rule_engine
     networks:
       - default
     restart: always

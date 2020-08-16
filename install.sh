@@ -23,4 +23,4 @@ docker-compose up -d
 
 sleep 30
 
-python3 "$SCRIPT_PATH/aa.py"
+python3 "$SCRIPT_PATH/init.py"
