@@ -24,3 +24,5 @@ docker-compose up -d
 sleep 30
 
 python3 "$SCRIPT_PATH/init.py"
+
+source "$SCRIPT_PATH/esp8266_install.sh"
