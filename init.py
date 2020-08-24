@@ -19,6 +19,14 @@ JSON_Data = {"name": "Smart Campus", "type": "influxdb",
 r = requests.post(url + api, auth=HTTPBasicAuth(usr, pwd), json=JSON_Data)
 print(r.content)
 
+api="/api/dashboards/db"
+JSON_Data = {"dashboard":json.loads(open("dashboard.json").read()),
+            "folderId":0,
+            "overwrite": True}
+JSON_Data['dashboard']['id']=None
+r = requests.post(url + api, auth=HTTPBasicAuth(usr, pwd), json=JSON_Data)
+print(r.content)
+
 url = "http://127.0.0.1:8081"
 usr = "admin"
 pwd = "public"
