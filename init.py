@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import time
 import json
 import requests
 from requests.auth import HTTPBasicAuth
@@ -16,7 +17,16 @@ JSON_Data = {"name": "Smart Campus", "type": "influxdb",
              "password": "", "user": "",
              "database": db_name, "basicAuth": False, "isDefault": True,
              "jsonData": {"keepCookies": []}, "readOnly": False}
-r = requests.post(url + api, auth=HTTPBasicAuth(usr, pwd), json=JSON_Data)
+             
+code=-1
+while code != 200:
+  try:
+    r = requests.post(url + api, auth=HTTPBasicAuth(usr, pwd), json=JSON_Data, timeout=3)
+    code = r.status_code
+  except:
+    time.sleep(3)
+    print("Waiting influxdb...")
+  
 print(r.content)
 
 api="/api/dashboards/db"
@@ -35,7 +45,15 @@ JSON_Data = {"type": "web_hook", "description": "InfluxDB",
              'config': {"url": "http://influxdb:8086/write?db=smart&precision=s",
                         "method": "POST",
                         "headers": []}}
-r = requests.post(url + api, auth=HTTPBasicAuth(usr, pwd), json=JSON_Data)
+code=-1
+while code != 200:
+  try:
+    r = requests.post(url + api, auth=HTTPBasicAuth(usr, pwd), json=JSON_Data, timeout=3)
+    code = r.status_code
+  except:
+    time.sleep(3)
+    print("Waiting emqx...")
+  
 resource = json.loads(r.content)
 print(r.content)
 

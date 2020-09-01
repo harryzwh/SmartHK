@@ -21,7 +21,7 @@ cp "$SCRIPT_PATH/flows.json" /home/$USER/nodered
 
 docker-compose up -d
 
-sleep 30
+#sleep 30
 
 python3 "$SCRIPT_PATH/init.py"
 
